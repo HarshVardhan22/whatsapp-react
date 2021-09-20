@@ -1,0 +1,27 @@
+.sidebar__header{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    
+}
+.sidebar{
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+}
+.sidebar__headerRight{
+    display: flex;
+    align-items: center;
+    min-width: 10vw;
+}
+.sidebar__searchContainer{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.sidebar__searchContainer input{
+    border: none;
+    padding: 10px;
+}
