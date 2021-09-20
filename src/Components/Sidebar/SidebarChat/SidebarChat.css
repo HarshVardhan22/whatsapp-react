@@ -1,0 +1,12 @@
+.sidebarChat__info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.sidebarChat{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 25px;
+    cursor: pointer ;
+}

@@ -1,27 +1,36 @@
-.sidebar__header{
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    
+.sidebar__header {
+  display: flex;
+  justify-content: space-between;
 }
-.sidebar{
-    width: 25vw;
-    display: flex;
-    flex-direction: column;
+.sidebar {
+  width: 25vw;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+  flex: 1;
+  max-height: 90vh;
 }
-.sidebar__headerRight{
-    display: flex;
-    align-items: center;
-    min-width: 10vw;
+.sidebar__headerRight {
+  display: flex;
+  align-items: center;
+  min-width: 10vw;
 }
-.sidebar__searchContainer{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding-left: 10px;
-    padding-right: 10px;
+.sidebar__searchContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  
 }
-.sidebar__searchContainer input{
-    border: none;
-    padding: 10px;
+.sidebar__searchContainer input {
+  border: none;
+  padding: 10px;
+  flex: 1;
+}
+
+.sidebar__chats {
+  max-height: 90vh;
+  background-color: azure;
+  overflow-y: scroll;
 }
