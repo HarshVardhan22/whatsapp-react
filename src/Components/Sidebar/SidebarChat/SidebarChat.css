@@ -5,8 +5,9 @@
 }
 .sidebarChat{
     display: flex;
-    justify-content: space-around;
     align-items: center;
     padding-top: 25px;
     cursor: pointer ;
+    padding-left:25px;
+    padding-right: 25px;
 }
