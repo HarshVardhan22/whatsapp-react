@@ -1,4 +1,4 @@
-import { AttachFile, MoreVert, SearchOutlined } from "@mui/icons-material";
+import { AttachFile, InsertEmoticon, MoreVert, SearchOutlined } from "@mui/icons-material";
 import { Avatar, IconButton } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import "./Chat.css";
@@ -8,8 +8,13 @@ const Chat = () => {
   //avatars.dicebar API has 2 parameter after /api
   // we have set the first one to HUMAN so that we can have both genders
   // while for the second one we want it to be random so to do that we are using useEffect and the state seed
-
+const [inputMsg,setInputMsg] = useState("")
   const [seed, setSeed] = useState(1234);
+  
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      setInputMsg("");
+  }
 
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
@@ -39,10 +44,20 @@ const Chat = () => {
       </div>
       <div className="chat__body">
       {/* messages */}
-          <p className="chat__message">Hey body</p>
-          <p className="chat__message">Hey body</p>
+          <p className="chat__message">
+          <span className="chat__name">Name</span>Message bodyddddddddddddddddddddddddddddddddddd <span className="chat__time">03:52</span></p>
+          <p className="chat__message">
+          <span className="chat__name">Name</span>Message body <span className="chat__time">03:52</span></p>
+          <p className="chat__message">
+          <span className="chat__name">Name</span>Message body <span className="chat__time">03:52</span></p>
       </div>
-      <div className="chat__footer">lo</div>
+      <div className="chat__footer">
+          <InsertEmoticon/>
+          <form onSubmit={handleSubmit}>
+              <input type="text" placeholder="Type a message" value={inputMsg} onChange={(e)=>{setInputMsg(e.target.value)}} />
+              {/* <button type="submit">Send a message</button> */}
+          </form>
+      </div>
     </div>
   );
 };
