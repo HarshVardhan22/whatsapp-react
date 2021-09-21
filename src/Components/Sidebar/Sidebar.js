@@ -13,6 +13,9 @@ import SidebarChat from "./SidebarChat/SidebarChat";
 const Sidebar = () => {
   const [rooms, setRooms] = useState([]);
   useEffect(() => {
+    //since getDocs is fetching from DB we need an async-await system here
+    //syntax for async await in useEffect : 
+    //(async()=>{..body })()
     (async () => {
       const q = query(collection(db, "rooms"));
       const querySnapshot = await getDocs(q);
@@ -30,7 +33,7 @@ const Sidebar = () => {
     //     data: doc.data(),
     //   })))
     // ))
-  }, []);
+  }, [rooms]);
   console.log(rooms)
   return (
     <div className="sidebar">
@@ -58,8 +61,9 @@ const Sidebar = () => {
         </div>
       </div>
       <div className="sidebar__chats">
-      {rooms.map((item, index) => {
-          return <SidebarChat name={item.data.name}/>
+      <SidebarChat addNewChat/>
+      {rooms.map((item) => {
+          return <SidebarChat key={item.data.id} name={item.data.name}/>
         })}
       </div>
     </div>
@@ -67,3 +71,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+ 
