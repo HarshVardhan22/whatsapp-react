@@ -1,7 +1,7 @@
 import { Avatar } from '@mui/material'
 import React, {useState,useEffect} from 'react'
 import "./SidebarChat.css"
-const SidebarChat = ({addNewChat}) => {
+const SidebarChat = ({addNewChat,name}) => {
 
     //avatars.dicebar API has 2 parameter after /api
     // we have set the first one to HUMAN so that we can have both genders
@@ -27,7 +27,7 @@ const SidebarChat = ({addNewChat}) => {
         <div className="sidebarChat">
             <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
             <div className="sidebarChat__info">
-            <h3>Room Name</h3>
+            <h3>{name}</h3>
             <p>Last message..</p>
             </div>
            
