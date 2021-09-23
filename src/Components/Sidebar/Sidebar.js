@@ -10,7 +10,9 @@ import { collection, query, getDocs } from "firebase/firestore";
 import "./Sidebar.css";
 import db from "../../Firebase";
 import SidebarChat from "./SidebarChat/SidebarChat";
+import { useStateValue } from "../../redux/StateProvider";
 const Sidebar = () => {
+  const [{ user }, dispatch] = useStateValue();
   const [rooms, setRooms] = useState([]);
 
   const fetchFromFirebase = async () => {
@@ -22,18 +24,18 @@ const Sidebar = () => {
         data: doc.data(),
       }))
     );
-  } 
+  };
   useEffect(() => {
     fetchFromFirebase();
-    console.log("hi")
+    console.log("hi");
   }, []);
 
-  console.log(rooms)
+  console.log(rooms);
 
   return (
     <div className="sidebar">
       <div className="sidebar__header">
-        <Avatar src="https://avatars.dicebear.com/api/human/1234.svg" />
+        <Avatar src={user?.photoURL} />
         <div className="sidebar__headerRight">
           <IconButton>
             <DonutLarge />
@@ -47,7 +49,6 @@ const Sidebar = () => {
             <MoreVert />
           </IconButton>
         </div>
-        
       </div>
       <div className="sidebar__search">
         <div className="sidebar__searchContainer">
@@ -56,9 +57,11 @@ const Sidebar = () => {
         </div>
       </div>
       <div className="sidebar__chats">
-      <SidebarChat addNewChat/>
-      {rooms.map((item) => {
-          return <SidebarChat id ={item.id} key={item.id} name={item.data.name}/>
+        <SidebarChat addNewChat />
+        {rooms.map((item) => {
+          return (
+            <SidebarChat id={item.id} key={item.id} name={item.data.name} />
+          );
         })}
       </div>
     </div>
@@ -66,4 +69,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
- 
