@@ -1,6 +1,7 @@
 import { AttachFile, InsertEmoticon, MoreVert, SearchOutlined } from "@mui/icons-material";
 import { Avatar, IconButton } from "@mui/material";
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
 import "./Chat.css";
 const Chat = () => {
   //!we are uisng random seed to fill the avatar but it should be the same seed which
@@ -11,6 +12,8 @@ const Chat = () => {
 const [inputMsg,setInputMsg] = useState("")
   const [seed, setSeed] = useState(1234);
   
+  const {roomId} = useParams();
+
   const handleSubmit = (e) => {
       e.preventDefault();
       setInputMsg("");

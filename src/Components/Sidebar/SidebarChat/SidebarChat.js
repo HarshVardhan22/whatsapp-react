@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import db from "../../../Firebase";
 import "./SidebarChat.css";
-const SidebarChat = ({ addNewChat, name }) => {
+import { Link } from "react-router-dom";
+const SidebarChat = ({ addNewChat, name, id }) => {
   //avatars.dicebar API has 2 parameter after /api
   // we have set the first one to HUMAN so that we can have both genders
   // while for the second one we want it to be random so to do that we are using useEffect and the state seed
@@ -18,6 +19,7 @@ const SidebarChat = ({ addNewChat, name }) => {
   const createChat = async () => {
     const roomName = prompt("Please enter the room name");
     if (roomName) {
+      //if the user enters a room name then we add that room to the firebase DB
       try {
         const docRef = await addDoc(collection(db, "rooms"), {
           name: roomName,
@@ -32,13 +34,16 @@ const SidebarChat = ({ addNewChat, name }) => {
   //if addNewChat prop is passed then it will render a div with oPTION
   //TO CREATE A NEW ROOM
   return !addNewChat ? (
-    <div className="sidebarChat">
-      <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
-      <div className="sidebarChat__info">
-        <h3>{name}</h3>
-        <p>Last message..</p>
+    <Link to={`/route/${id}`}>
+      <div className="sidebarChat">
+        <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
+        <div className="sidebarChat__info">
+          <h3>{name}</h3>
+          <p>Last message..</p>
+        </div>
       </div>
-    </div>
+    </Link>
+   
   ) : (
     <div onClick={createChat} className="sidebarChat">
       <h2>Add New Chat</h2>
