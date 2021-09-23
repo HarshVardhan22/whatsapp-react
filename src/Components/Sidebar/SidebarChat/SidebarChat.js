@@ -34,7 +34,7 @@ const SidebarChat = ({ addNewChat, name, id }) => {
   //if addNewChat prop is passed then it will render a div with oPTION
   //TO CREATE A NEW ROOM
   return !addNewChat ? (
-    <Link to={`/route/${id}`}>
+    <Link to={`/rooms/${id}`}>
       <div className="sidebarChat">
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
         <div className="sidebarChat__info">

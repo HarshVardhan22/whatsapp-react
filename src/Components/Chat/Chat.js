@@ -1,7 +1,14 @@
-import { AttachFile, InsertEmoticon, MoreVert, SearchOutlined } from "@mui/icons-material";
+import {
+  AttachFile,
+  InsertEmoticon,
+  MoreVert,
+  SearchOutlined,
+} from "@mui/icons-material";
 import { Avatar, IconButton } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import db from "../../Firebase";
 import "./Chat.css";
 const Chat = () => {
   //!we are uisng random seed to fill the avatar but it should be the same seed which
@@ -9,16 +16,31 @@ const Chat = () => {
   //avatars.dicebar API has 2 parameter after /api
   // we have set the first one to HUMAN so that we can have both genders
   // while for the second one we want it to be random so to do that we are using useEffect and the state seed
-const [inputMsg,setInputMsg] = useState("")
+  const [inputMsg, setInputMsg] = useState("");
   const [seed, setSeed] = useState(1234);
-  
-  const {roomId} = useParams();
+  const [roomName, setRoomName] = useState("");
+  const { roomId } = useParams();
+
+  console.log(roomId)
 
   const handleSubmit = (e) => {
-      e.preventDefault();
-      setInputMsg("");
-  }
+    e.preventDefault();
+    setInputMsg("");
+  };
 
+  const fetchRoomFromFirebase = async () => {
+    const q = query(collection(db, "rooms"));
+    const querySnapshot = await getDocs(q);
+    console.log(querySnapshot.docs)
+    querySnapshot.docs.map((doc) =>{ if(doc.id === `${roomId}`)
+  setRoomName(doc.data().name)});
+  };
+  useEffect(() => {
+    if (roomId) {
+      //fetch the data from room Id and select the room name -> setRoomName(room namefound)
+      fetchRoomFromFirebase();
+    }
+  }, [roomId]);
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
   }, []);
@@ -27,9 +49,11 @@ const [inputMsg,setInputMsg] = useState("")
     <div className="chat">
       <div className="chat__header">
         <div className="chat__headerLeft">
-          <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}></Avatar>
+          <Avatar
+            src={`https://avatars.dicebear.com/api/human/${seed}.svg`}
+          ></Avatar>
           <div className="chat__headerInfo">
-            <h3>Room Name</h3>
+            <h3>{roomName}</h3>
             <p>Last seen at.. </p>
           </div>
         </div>
@@ -46,20 +70,34 @@ const [inputMsg,setInputMsg] = useState("")
         </div>
       </div>
       <div className="chat__body">
-      {/* messages */}
-          <p className="chat__message">
-          <span className="chat__name">Name</span>Message bodyddddddddddddddddddddddddddddddddddd <span className="chat__time">03:52</span></p>
-          <p className="chat__message">
-          <span className="chat__name">Name</span>Message body <span className="chat__time">03:52</span></p>
-          <p className="chat__message">
-          <span className="chat__name">Name</span>Message body <span className="chat__time">03:52</span></p>
+        {/* messages */}
+        <p className="chat__message">
+          <span className="chat__name">Name</span>Message
+          bodyddddddddddddddddddddddddddddddddddd{" "}
+          <span className="chat__time">03:52</span>
+        </p>
+        <p className="chat__message">
+          <span className="chat__name">Name</span>Message body{" "}
+          <span className="chat__time">03:52</span>
+        </p>
+        <p className="chat__message">
+          <span className="chat__name">Name</span>Message body{" "}
+          <span className="chat__time">03:52</span>
+        </p>
       </div>
       <div className="chat__footer">
-          <InsertEmoticon/>
-          <form onSubmit={handleSubmit}>
-              <input type="text" placeholder="Type a message" value={inputMsg} onChange={(e)=>{setInputMsg(e.target.value)}} />
-              {/* <button type="submit">Send a message</button> */}
-          </form>
+        <InsertEmoticon />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Type a message"
+            value={inputMsg}
+            onChange={(e) => {
+              setInputMsg(e.target.value);
+            }}
+          />
+          {/* <button type="submit">Send a message</button> */}
+        </form>
       </div>
     </div>
   );
