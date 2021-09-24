@@ -57,10 +57,10 @@ const Sidebar = () => {
         </div>
       </div>
       <div className="sidebar__chats">
-        <SidebarChat addNewChat />
+        <SidebarChat fetchRoomsFromFirebase={fetchRoomsFromFirebase} addNewChat />
         {rooms.map((item) => {
           return (
-            <SidebarChat id={item.id} key={item.id} name={item.data.name} />
+            <SidebarChat fetchRoomsFromFirebase={fetchRoomsFromFirebase} id={item.id} key={item.id} name={item.data.name} />
           );
         })}
       </div>

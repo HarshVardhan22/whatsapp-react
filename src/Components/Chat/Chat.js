@@ -7,14 +7,14 @@ import {
 import { Avatar, IconButton } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { collection, addDoc, query, orderBy,FieldValue,Timestamp, getDocs } from "firebase/firestore";
+import { collection, addDoc, query, orderBy,Timestamp, getDocs } from "firebase/firestore";
 import db from "../../Firebase";
 import "./Chat.css";
 import firebase from "firebase/compat/app";
 import { useStateValue } from "../../redux/StateProvider";
 
 const Chat = () => {
-  //!we are using random seed to fill the avatar but it should be the same seed which
+  //! we are using random seed to fill the avatar but it should be the same seed which
   //! chat room was clicked had to work on this
   //avatars.dicebar API has 2 parameter after /api
   // we have set the first one to HUMAN so that we can have both genders
