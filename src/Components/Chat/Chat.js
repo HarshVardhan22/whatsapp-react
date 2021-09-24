@@ -7,7 +7,14 @@ import {
 import { Avatar, IconButton } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { collection, addDoc, query, orderBy,Timestamp, getDocs } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  Timestamp,
+  getDocs,
+} from "firebase/firestore";
 import db from "../../Firebase";
 import "./Chat.css";
 import firebase from "firebase/compat/app";
@@ -46,17 +53,20 @@ const Chat = () => {
   };
 
   const fetchRoomFromFirebase = async () => {
-    console.log("fetchRoomFromFirebase called")
-    const q = query(collection(db, "rooms"),orderBy("createdAt","asc"));
+    console.log("fetchRoomFromFirebase called");
+    const q = query(collection(db, "rooms"), orderBy("createdAt", "asc"));
     const querySnapshot = await getDocs(q);
     querySnapshot.docs.map((doc) => {
       if (doc.id === `${roomId}`) setRoomName(doc.data().name);
     });
   };
   const fetchMessagesFromFirebase = async () => {
-    console.log(" fetchMessagesFromFirebase called")
+    console.log(" fetchMessagesFromFirebase called");
     setMessages([]);
-    const q = query(collection(db, "rooms", `${roomId}`, "messages"),orderBy("createdAt","asc"));
+    const q = query(
+      collection(db, "rooms", `${roomId}`, "messages"),
+      orderBy("createdAt", "asc")
+    );
     const querySnapshot = await getDocs(q);
     querySnapshot.docs.map((doc) => {
       setMessages((prevState) => [...prevState, doc.data()]);
@@ -69,13 +79,11 @@ const Chat = () => {
       fetchRoomFromFirebase();
       fetchMessagesFromFirebase();
     }
-    console.log("called")
   }, [roomId]);
 
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
-    console.log("hi")
-  }, []);
+  },[]);
 
   console.log(messages);
   return (
@@ -87,8 +95,11 @@ const Chat = () => {
           ></Avatar>
           <div className="chat__headerInfo">
             <h3>{roomName}</h3>
-            {messages[messages.length-1]?.timestamp?<p>Last active at {messages[messages.length-1]?.timestamp} </p>:<p>No activity yet! </p>}
-            
+            {messages[messages.length - 1]?.timestamp ? (
+              <p>Last active at {messages[messages.length - 1]?.timestamp} </p>
+            ) : (
+              <p>No activity yet! </p>
+            )}
           </div>
         </div>
         <div className="chat__headerRight">
@@ -109,10 +120,7 @@ const Chat = () => {
           <p key={index} className="chat__message">
             <span className="chat__name">{msgs.name}</span>
             {msgs.message}
-            <span className="chat__time">
-              {msgs.timestamp}
-         
-            </span>
+            <span className="chat__time">{msgs.timestamp}</span>
           </p>
         ))}
       </div>

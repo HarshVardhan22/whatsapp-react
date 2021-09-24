@@ -16,7 +16,7 @@ const Sidebar = () => {
   const [rooms, setRooms] = useState([]);
 
   const fetchRoomsFromFirebase = async () => {
-    const q = query(collection(db, "rooms"), orderBy("createdAt","asc"));
+    const q = query(collection(db, "rooms"), orderBy("createdAt", "asc"));
     const querySnapshot = await getDocs(q);
     setRooms(
       querySnapshot.docs.map((doc) => ({
@@ -57,10 +57,18 @@ const Sidebar = () => {
         </div>
       </div>
       <div className="sidebar__chats">
-        <SidebarChat fetchRoomsFromFirebase={fetchRoomsFromFirebase} addNewChat />
+        <SidebarChat
+          fetchRoomsFromFirebase={fetchRoomsFromFirebase}
+          addNewChat
+        />
         {rooms.map((item) => {
           return (
-            <SidebarChat fetchRoomsFromFirebase={fetchRoomsFromFirebase} id={item.id} key={item.id} name={item.data.name} />
+            <SidebarChat
+              fetchRoomsFromFirebase={fetchRoomsFromFirebase}
+              id={item.id}
+              key={item.id}
+              name={item.data.name}
+            />
           );
         })}
       </div>

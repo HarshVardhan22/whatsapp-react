@@ -1,11 +1,11 @@
 import { Avatar } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { collection, addDoc,Timestamp } from "firebase/firestore";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 import db from "../../../Firebase";
 import "./SidebarChat.css";
 import { Link } from "react-router-dom";
 
-const SidebarChat = ({ fetchRoomsFromFirebase,addNewChat, name, id }) => {
+const SidebarChat = ({ fetchRoomsFromFirebase, addNewChat, name, id }) => {
   //avatars.dicebar API has 2 parameter after /api
   // we have set the first one to HUMAN so that we can have both genders
   // while for the second one we want it to be random so to do that we are using useEffect and the state seed
@@ -23,7 +23,7 @@ const SidebarChat = ({ fetchRoomsFromFirebase,addNewChat, name, id }) => {
       //if the user enters a room name then we add that room to the firebase DB
       const docRef = await addDoc(collection(db, "rooms"), {
         name: roomName,
-        createdAt: Timestamp.now()
+        createdAt: Timestamp.now(),
       });
       fetchRoomsFromFirebase();
     }
@@ -41,7 +41,6 @@ const SidebarChat = ({ fetchRoomsFromFirebase,addNewChat, name, id }) => {
         </div>
       </div>
     </Link>
-   
   ) : (
     <div onClick={createChat} className="sidebarChat">
       <h2>Add New Chat</h2>
