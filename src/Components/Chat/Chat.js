@@ -87,7 +87,8 @@ const Chat = () => {
           ></Avatar>
           <div className="chat__headerInfo">
             <h3>{roomName}</h3>
-            <p>Last seen at.. </p>
+            {messages[messages.length-1]?.timestamp?<p>Last active at {messages[messages.length-1]?.timestamp} </p>:<p>No activity yet! </p>}
+            
           </div>
         </div>
         <div className="chat__headerRight">
