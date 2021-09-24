@@ -6,7 +6,7 @@ import {
 } from "@mui/icons-material";
 import { Avatar, IconButton } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { collection, query, getDocs } from "firebase/firestore";
+import { collection, query, getDocs, orderBy } from "firebase/firestore";
 import "./Sidebar.css";
 import db from "../../Firebase";
 import SidebarChat from "./SidebarChat/SidebarChat";
@@ -15,8 +15,8 @@ const Sidebar = () => {
   const [{ user }, dispatch] = useStateValue();
   const [rooms, setRooms] = useState([]);
 
-  const fetchFromFirebase = async () => {
-    const q = query(collection(db, "rooms"));
+  const fetchRoomsFromFirebase = async () => {
+    const q = query(collection(db, "rooms"), orderBy("createdAt","asc"));
     const querySnapshot = await getDocs(q);
     setRooms(
       querySnapshot.docs.map((doc) => ({
@@ -26,7 +26,7 @@ const Sidebar = () => {
     );
   };
   useEffect(() => {
-    fetchFromFirebase();
+    fetchRoomsFromFirebase();
     console.log("hi");
   }, []);
 

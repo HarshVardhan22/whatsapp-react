@@ -1,9 +1,10 @@
 import { Avatar } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc,Timestamp } from "firebase/firestore";
 import db from "../../../Firebase";
 import "./SidebarChat.css";
 import { Link } from "react-router-dom";
+
 const SidebarChat = ({ addNewChat, name, id }) => {
   //avatars.dicebar API has 2 parameter after /api
   // we have set the first one to HUMAN so that we can have both genders
@@ -23,6 +24,7 @@ const SidebarChat = ({ addNewChat, name, id }) => {
       try {
         const docRef = await addDoc(collection(db, "rooms"), {
           name: roomName,
+          createdAt: Timestamp.now()
         });
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {

@@ -7,7 +7,7 @@ import {
 import { Avatar, IconButton } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { collection, addDoc, query, doc, getDocs } from "firebase/firestore";
+import { collection, addDoc, query, orderBy,FieldValue,Timestamp, getDocs } from "firebase/firestore";
 import db from "../../Firebase";
 import "./Chat.css";
 import firebase from "firebase/compat/app";
@@ -33,6 +33,7 @@ const Chat = () => {
         message: inputMsg,
         name: user.displayName,
         timestamp: new Date().toLocaleString(),
+        createdAt: Timestamp.now(),
       }
     );
   };
@@ -40,18 +41,22 @@ const Chat = () => {
     e.preventDefault();
     sendMessage();
     setInputMsg("");
+    fetchRoomFromFirebase();
+    fetchMessagesFromFirebase();
   };
 
   const fetchRoomFromFirebase = async () => {
-    const q = query(collection(db, "rooms"));
+    console.log("fetchRoomFromFirebase called")
+    const q = query(collection(db, "rooms"),orderBy("createdAt","asc"));
     const querySnapshot = await getDocs(q);
     querySnapshot.docs.map((doc) => {
       if (doc.id === `${roomId}`) setRoomName(doc.data().name);
     });
   };
   const fetchMessagesFromFirebase = async () => {
+    console.log(" fetchMessagesFromFirebase called")
     setMessages([]);
-    const q = query(collection(db, "rooms", `${roomId}`, "messages"));
+    const q = query(collection(db, "rooms", `${roomId}`, "messages"),orderBy("createdAt","asc"));
     const querySnapshot = await getDocs(q);
     querySnapshot.docs.map((doc) => {
       setMessages((prevState) => [...prevState, doc.data()]);
@@ -64,10 +69,12 @@ const Chat = () => {
       fetchRoomFromFirebase();
       fetchMessagesFromFirebase();
     }
+    console.log("called")
   }, [roomId]);
 
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
+    console.log("hi")
   }, []);
 
   console.log(messages);
