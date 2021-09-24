@@ -37,7 +37,7 @@ const Sidebar = () => {
       <div className="sidebar__header">
         <Avatar src={user?.photoURL} />
         <div className="sidebar__headerRight">
-          <IconButton>
+          {/* <IconButton>
             <DonutLarge />
           </IconButton>
           <IconButton>
@@ -47,7 +47,10 @@ const Sidebar = () => {
           <IconButton>
             {" "}
             <MoreVert />
-          </IconButton>
+          </IconButton> */}
+          <h3>
+            {user.displayName}
+          </h3>
         </div>
       </div>
       <div className="sidebar__search">

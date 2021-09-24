@@ -6,8 +6,17 @@
 .sidebarChat{
     display: flex;
     align-items: center;
-    padding-top: 25px;
+    padding: 15px 25px 15px 25px;
     cursor: pointer ;
-    padding-left:25px;
-    padding-right: 25px;
+    
+}
+.sidebarChat:hover{
+ background-color: burlywood;
+}
+a{
+    text-decoration: none;
+}
+
+a:visited,a:link, a:hover{
+    color: #1f1f1f;
 }

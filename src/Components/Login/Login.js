@@ -24,7 +24,7 @@ const Login = () => {
   };
 
   return (
-    <div classname="login">
+    <div className="login">
       <div className="login__container">
         <div className="login__text">
           <h1> Sign to ReactChat</h1>

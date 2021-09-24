@@ -1,6 +1,13 @@
 import { Avatar } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  Timestamp,
+  getDocs
+} from "firebase/firestore";
 import db from "../../../Firebase";
 import "./SidebarChat.css";
 import { Link } from "react-router-dom";
@@ -9,14 +16,30 @@ const SidebarChat = ({ fetchRoomsFromFirebase, addNewChat, name, id }) => {
   //avatars.dicebar API has 2 parameter after /api
   // we have set the first one to HUMAN so that we can have both genders
   // while for the second one we want it to be random so to do that we are using useEffect and the state seed
-
+  const [messages, setMessages] = useState([]);
   const [seed, setSeed] = useState(1234);
+
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
-  }, []);
+    fetchMessagesFromFirebase();
+    console.log("object")
+  }, [id]);
+
+  const fetchMessagesFromFirebase = async () => {
+    setMessages([]);
+    const q = query(
+      collection(db, "rooms", `${id}`, "messages"),
+      orderBy("createdAt", "desc")
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.docs.map((doc) => {
+      setMessages((prevState) => [...prevState, doc.data()]);
+    });
+  };
+  //* update/fetch msg-> read the last one -> show it
+
 
   //THIS creates new room or chat
-
   const createChat = async () => {
     const roomName = prompt("Please enter the room name");
     if (roomName) {
@@ -37,7 +60,8 @@ const SidebarChat = ({ fetchRoomsFromFirebase, addNewChat, name, id }) => {
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
         <div className="sidebarChat__info">
           <h3>{name}</h3>
-          <p>Last message..</p>
+          {messages[0]?<p>{messages[0].message}</p>:<p>Start a conversation!</p>}
+          
         </div>
       </div>
     </Link>

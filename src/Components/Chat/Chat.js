@@ -53,7 +53,7 @@ const Chat = () => {
   };
 
   const fetchRoomFromFirebase = async () => {
-    console.log("fetchRoomFromFirebase called");
+   
     const q = query(collection(db, "rooms"), orderBy("createdAt", "asc"));
     const querySnapshot = await getDocs(q);
     querySnapshot.docs.map((doc) => {
@@ -61,7 +61,7 @@ const Chat = () => {
     });
   };
   const fetchMessagesFromFirebase = async () => {
-    console.log(" fetchMessagesFromFirebase called");
+   
     setMessages([]);
     const q = query(
       collection(db, "rooms", `${roomId}`, "messages"),
@@ -103,7 +103,7 @@ const Chat = () => {
           </div>
         </div>
         <div className="chat__headerRight">
-          <IconButton>
+          {/* <IconButton>
             <SearchOutlined />
           </IconButton>
           <IconButton>
@@ -111,7 +111,8 @@ const Chat = () => {
           </IconButton>
           <IconButton>
             <MoreVert />
-          </IconButton>
+          </IconButton> */}
+          <h3>{}</h3>
         </div>
       </div>
       <div className="chat__body">
