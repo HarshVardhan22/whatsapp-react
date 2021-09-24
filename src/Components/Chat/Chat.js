@@ -7,9 +7,11 @@ import {
 import { Avatar, IconButton } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { collection, query, doc, getDocs } from "firebase/firestore";
+import { collection, addDoc, query, doc, getDocs } from "firebase/firestore";
 import db from "../../Firebase";
 import "./Chat.css";
+import firebase from "firebase/compat/app";
+import { useStateValue } from "../../redux/StateProvider";
 
 const Chat = () => {
   //!we are using random seed to fill the avatar but it should be the same seed which
@@ -22,9 +24,21 @@ const Chat = () => {
   const [roomName, setRoomName] = useState("");
   const [messages, setMessages] = useState([]);
   const { roomId } = useParams();
+  const [{ user }, dispatch] = useStateValue();
 
+  const sendMessage = async () => {
+    const docRef = await addDoc(
+      collection(db, "rooms", `${roomId}`, "messages"),
+      {
+        message: inputMsg,
+        name: user.displayName,
+        timestamp: new Date().toLocaleString(),
+      }
+    );
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
+    sendMessage();
     setInputMsg("");
   };
 
@@ -36,11 +50,12 @@ const Chat = () => {
     });
   };
   const fetchMessagesFromFirebase = async () => {
+    setMessages([]);
     const q = query(collection(db, "rooms", `${roomId}`, "messages"));
     const querySnapshot = await getDocs(q);
-    (querySnapshot.docs.map((doc) => {
-      setMessages((prevState)=>[...prevState,doc.data()])
-    }))
+    querySnapshot.docs.map((doc) => {
+      setMessages((prevState) => [...prevState, doc.data()]);
+    });
   };
 
   useEffect(() => {
@@ -82,14 +97,18 @@ const Chat = () => {
       </div>
       <div className="chat__body">
         {/* messages */}
-        {messages?.map((msgs,index) => (
+        {messages?.map((msgs, index) => (
           <p key={index} className="chat__message">
-          <span className="chat__name">{msgs.name}</span>{msgs.message}
-          <span className="chat__time">{new Date(msgs.timestamp?.toDate()).toUTCString()}</span>
-        </p>
+            <span className="chat__name">{msgs.name}</span>
+            {msgs.message}
+            <span className="chat__time">
+              {msgs.timestamp}
+         
+            </span>
+          </p>
         ))}
       </div>
-     
+
       <div className="chat__footer">
         <InsertEmoticon />
         <form onSubmit={handleSubmit}>
@@ -101,7 +120,6 @@ const Chat = () => {
               setInputMsg(e.target.value);
             }}
           />
-          
         </form>
       </div>
     </div>
