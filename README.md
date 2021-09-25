@@ -1,4 +1,4 @@
-Checkout this Application ReactChat://whatsapp-react-a025e.web.app/
+Checkout this Application ReactChat:https://whatsapp-react-a025e.web.app/
 
 I have used React and Firebase stack to build a chat application and for design refernce I have used Whatsapp Web.
 
