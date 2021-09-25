@@ -27,7 +27,7 @@ const Login = () => {
     <div className="login">
       <div className="login__container">
         
-          <h1> Sign to ReactChat</h1>
+          <h1> Welcome to ReactChat</h1>
           <Button variant="contained" onClick={signIn}>Sign in with Google</Button>
     
       </div>
