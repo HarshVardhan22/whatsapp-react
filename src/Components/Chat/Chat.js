@@ -118,7 +118,7 @@ const Chat = () => {
       <div className="chat__body">
         {/* messages */}
         {messages?.map((msgs, index) => (
-          <p key={index} className="chat__message">
+          <p key={index} className={`chat__message ${msgs.name === user.displayName && "chat__reciever"}`}>
             <span className="chat__name">{msgs.name}</span>
             {msgs.message}
             <span className="chat__time">{msgs.timestamp}</span>

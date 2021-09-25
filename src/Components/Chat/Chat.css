@@ -24,12 +24,14 @@
     margin-left: 10px;
 }
 
-.chat__headerRight{
-
-}
 .chat__body{
     flex: 0.8;
     padding: 15px;
+    overflow-y: scroll;
+}
+.chat__reciever{
+    margin-left: auto;
+    background-color: rgb(226, 30, 30) !important;
 }
 
 .chat__message{
