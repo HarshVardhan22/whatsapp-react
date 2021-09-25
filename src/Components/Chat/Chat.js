@@ -17,7 +17,7 @@ import {
 } from "firebase/firestore";
 import db from "../../Firebase";
 import "./Chat.css";
-import firebase from "firebase/compat/app";
+
 import { useStateValue } from "../../redux/StateProvider";
 
 const Chat = () => {
@@ -32,7 +32,12 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const { roomId } = useParams();
   const [{ user }, dispatch] = useStateValue();
-  const messagesEndRef = useRef(null)
+  const messageAtEnd= useRef(null);
+
+  const scrollToBottom = () => {
+    messageAtEnd.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
   const sendMessage = async () => {
     const docRef = await addDoc(
       collection(db, "rooms", `${roomId}`, "messages"),
@@ -50,6 +55,7 @@ const Chat = () => {
     setInputMsg("");
     fetchRoomFromFirebase();
     fetchMessagesFromFirebase();
+   
   };
 
   const fetchRoomFromFirebase = async () => {
@@ -80,10 +86,8 @@ const Chat = () => {
     querySnapshot.docs.map((doc) => tempMessageArray.push(doc.data()))
     setMessages(tempMessageArray);
   };
-  const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
-    console.log("scroll fn called")
-  }
+
+
 
   useEffect(() => {
     if (roomId) {
@@ -91,14 +95,13 @@ const Chat = () => {
       fetchRoomFromFirebase();
       fetchMessagesFromFirebase();
     }
-    scrollToBottom();
+
   }, [roomId]);
 
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
   },[]);
 
-  console.log(messages);
   return (
     <div className="chat">
       <div className="chat__header">
@@ -138,10 +141,10 @@ const Chat = () => {
           </p>
         ))}
       </div>
-      <div ref={messagesEndRef}></div>
-
+      <div ref={messageAtEnd}></div>
+      
       <div className="chat__footer" >
-        <InsertEmoticon />
+        {/* <InsertEmoticon /> */}
         <form onSubmit={handleSubmit}>
           <input
             type="text"

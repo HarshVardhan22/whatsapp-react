@@ -31,6 +31,6 @@
 
 .sidebar__chats {
   max-height: 90vh;
-  background-color: azure;
+  background-color: white;
   overflow-y: scroll;
 }

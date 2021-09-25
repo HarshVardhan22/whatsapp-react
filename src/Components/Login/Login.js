@@ -26,11 +26,12 @@ const Login = () => {
   return (
     <div className="login">
       <div className="login__container">
-        <div className="login__text">
+        
           <h1> Sign to ReactChat</h1>
-        </div>
+          <Button variant="contained" onClick={signIn}>Sign in with Google</Button>
+    
       </div>
-      <Button onClick={signIn}>Sign in with Google</Button>
+      
     </div>
   );
 };
