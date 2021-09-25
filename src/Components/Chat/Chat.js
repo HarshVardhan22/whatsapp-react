@@ -5,7 +5,7 @@ import {
   SearchOutlined,
 } from "@mui/icons-material";
 import { Avatar, IconButton } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router";
 import {
   collection,
@@ -32,7 +32,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const { roomId } = useParams();
   const [{ user }, dispatch] = useStateValue();
-
+  const messagesEndRef = useRef(null)
   const sendMessage = async () => {
     const docRef = await addDoc(
       collection(db, "rooms", `${roomId}`, "messages"),
@@ -68,10 +68,22 @@ const Chat = () => {
       orderBy("createdAt", "asc")
     );
     const querySnapshot = await getDocs(q);
-    querySnapshot.docs.map((doc) => {
-      setMessages((prevState) => [...prevState, doc.data()]);
-    });
+  
+    
+    // querySnapshot.docs.map((doc) => {
+    //   setMessages((prevState) => [...prevState, doc.data()]);
+    // });
+
+    //* to improve the performance isntaed of updating the state multiple times
+    //* storing the data in array and then pushing it to the state 
+    let tempMessageArray = [];
+    querySnapshot.docs.map((doc) => tempMessageArray.push(doc.data()))
+    setMessages(tempMessageArray);
   };
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+    console.log("scroll fn called")
+  }
 
   useEffect(() => {
     if (roomId) {
@@ -79,6 +91,7 @@ const Chat = () => {
       fetchRoomFromFirebase();
       fetchMessagesFromFirebase();
     }
+    scrollToBottom();
   }, [roomId]);
 
   useEffect(() => {
@@ -125,8 +138,9 @@ const Chat = () => {
           </p>
         ))}
       </div>
+      <div ref={messagesEndRef}></div>
 
-      <div className="chat__footer">
+      <div className="chat__footer" >
         <InsertEmoticon />
         <form onSubmit={handleSubmit}>
           <input
