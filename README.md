@@ -12,3 +12,5 @@ Upcoming Features:
 1. Dark mode
 2. Emoticons Input
 3. User can add more type of files like Images and documents as well in the chat. 
+
+I have also used redux to manage logged in user's state. To know more about redux check my repo : https://github.com/HarshVardhan22/React-Redux-Demo
